@@ -1,12 +1,9 @@
 import { ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import type { Seccion } from '@/models/Seccion';
 import FamiliasApi from '@/api/FamiliasApi';
 
 export const useSeccion = () => {
     //variables
-    const router = useRouter();
-    const route = useRoute();
     const secciones = ref([] as Seccion[]);
 
     //Functions
@@ -45,7 +42,7 @@ export const useSeccion = () => {
     };
 
     const agregarSeccion = () => {
-        let nuevaSecccion = ref({} as Seccion);
+        const nuevaSecccion = ref({} as Seccion);
         secciones.value.push(nuevaSecccion.value);
     };
 

@@ -4,9 +4,13 @@
         <div class="row">
             <div class="col-lg-10 col"></div>
             <div class="col-lg-2 col">
-                <!-- <button type="button" class="btn btn-lg btn-info shadow-lg my-3" @click="nuevoCliente()">
-          Crear un Cliente
-        </button> -->
+                <button
+                    type="button"
+                    class="btn btn-lg btn-info shadow-lg my-3"
+                    @click="nuevoCliente()"
+                >
+                    Crear un Cliente
+                </button>
             </div>
         </div>
         <CardComponent>
@@ -19,7 +23,6 @@
                     <th>Teléfono</th>
                     <th>NIF</th>
                 </tr>
-                <!-- !Intentar hacer con el el router-link -->
                 <tr
                     class="filas"
                     v-for="(cliente, index) in clientes"
@@ -48,13 +51,7 @@ import { onMounted } from 'vue';
 import { useCliente } from '../../composables/useCliente';
 import CardComponent from '../helpers/CardComponent.vue';
 
-const {
-    clientes,
-    cargarClientes,
-    detalle,
-    eliminar,
-    //  nuevoCliente
-} = useCliente();
+const { clientes, cargarClientes, detalle, eliminar, nuevoCliente } = useCliente();
 
 onMounted(async () => {
     cargarClientes();

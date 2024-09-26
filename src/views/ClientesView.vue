@@ -105,21 +105,12 @@ import fechasSenialadas from '@/components/clientes/fechasSenialadasCliente.vue'
 import apartados from '@/components/clientes/apartadosCliente.vue';
 import notas from '@/components/clientes/notasCliente.vue';
 import reparaciones from '@/components/reparaciones/listadoReparacion.vue';
-
 import CardComponent from '@/components/helpers/CardComponent.vue';
 import BotonesCrud from '@/components/helpers/BotonesCrudComponent.vue';
 
 //Estrcuctura Composable
-const {
-    selector,
-    cliente,
-    cambiarPestania,
-    detalle,
-    modificar,
-    eliminar,
-    crear,
-    // nuevoCliente
-} = useCliente();
+const { selector, cliente, cambiarPestania, detalle, modificar, eliminar, crear, nuevoCliente } =
+    useCliente();
 
 const route = useRoute();
 
@@ -129,7 +120,7 @@ onMounted(async () => {
         if (route.params.id) {
             detalle(parseInt(route.params.id as string));
         } else {
-            // nuevoCliente()
+            nuevoCliente();
         }
     } catch (error) {
         console.log('error en la vista de detalle ERROR: ' + error);

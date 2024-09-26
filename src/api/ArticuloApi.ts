@@ -5,27 +5,54 @@ import type { AxiosError, AxiosResponse } from 'axios';
 export default {
     name: 'ArticuloApi',
     async getArticulos(): Promise<Articulo[]> {
-        return axios.get('/articulos/getArticulos').then((response: AxiosResponse) => {
-            return response.data;
-        });
+        return axios
+            .get('/articulos/getArticulos')
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.data;
+            });
     },
     async getArticulo(idArticulo: number): Promise<Articulo> {
-        return axios.get('/articulos/getArticulo/' + idArticulo).then((res: AxiosResponse) => {
-            return res.data;
-        });
+        return axios
+            .get('/articulos/getArticulo/' + idArticulo)
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.data;
+            });
     },
     async crear(newArticulo: Articulo) {
-        return axios.post('/articulos/crear', newArticulo).then((res: AxiosResponse) => {
-            return res;
-        });
+        return axios
+            .post('/articulos/crear', newArticulo)
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.data;
+            });
     },
     async actualizar(newArticulo: Articulo) {
-        return axios.put('/articulos/actualizar', newArticulo).then((res: AxiosResponse) => {
-            return res;
-        });
+        return axios
+            .put('/articulos/actualizar', newArticulo)
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.data;
+            });
     },
     async eliminar(idArticulo: number): Promise<Number> {
-        return (await axios.delete('/articulos/eliminar/' + idArticulo)).status;
+        return axios
+            .delete('/articulos/eliminar/' + idArticulo)
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.data;
+            });
     },
     async buscar(cadena: string, encontrarPrimero: boolean): Promise<Articulo[] | Articulo> {
         return axios

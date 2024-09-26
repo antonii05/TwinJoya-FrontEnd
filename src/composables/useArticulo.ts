@@ -23,7 +23,7 @@ export const useArticulos = () => {
         try {
             articulos.value = await ArticuloApi.getArticulos();
         } catch (e) {
-            console.log('Error en la carga de los articulos ERROR: ' + e);
+            console.log('Error en la carga de los articulos ERROR: ', e);
         }
     };
 
@@ -36,7 +36,7 @@ export const useArticulos = () => {
             await cargarSecciones();
             await cargarEmpresas();
         } catch (error) {
-            console.log('Error en la carga del detalle del Articulo' + error);
+            console.log('Error en la carga del detalle del Articulo', error);
         }
     };
 
@@ -87,10 +87,10 @@ export const useArticulos = () => {
      */
     const buscar = async (tipoBusqueda: boolean) => {
         const inputElement = document.getElementById('buscarArticulo') as HTMLInputElement;
-        let inputValue = inputElement ? inputElement.value : '';
+        const inputValue = inputElement ? inputElement.value : '';
 
         try {
-            let respuesta = await ArticuloApi.buscar(inputValue, tipoBusqueda);
+            const respuesta = await ArticuloApi.buscar(inputValue, tipoBusqueda);
             if (tipoBusqueda) {
                 articulo.value = respuesta as Articulo;
             } else {
@@ -105,15 +105,12 @@ export const useArticulos = () => {
 
     const eliminar = async (id: number) => {
         try {
-            await ArticuloApi.eliminar(id).then(respuesta => {
-                if (respuesta == 200) {
-                    router.push('/articulos');
-                    window.location.reload();
-                    alert('El articulo se ha eliminado correctamente');
-                }
-            });
+            await ArticuloApi.eliminar(id);
+            router.push('/articulos');
+            window.location.reload();
+            alert('El articulo se ha eliminado correctamente');
         } catch (error) {
-            console.log('Ocurrio un error al hacer la peticion de error a la API ERROR: ' + error);
+            console.log('Ocurrio un error al hacer la peticion de error a la API ERROR: ', error);
         }
     };
 
@@ -121,14 +118,10 @@ export const useArticulos = () => {
         nuevoArticulo.id_familia = nuevoArticulo.familia.id;
         nuevoArticulo.id_proveedor = nuevoArticulo.proveedor.id;
         try {
-            await ArticuloApi.actualizar(nuevoArticulo).then(respuesta => {
-                if (respuesta.status == 200) {
-                    router.push('/articulos');
-                }
-                console.log(respuesta);
-            });
+            await ArticuloApi.actualizar(nuevoArticulo);
+            router.push('/articulos');
         } catch (error) {
-            console.log('Ocurrio un error al hacer la peticion de update a la API ERROR: ' + error);
+            console.log('Ocurrio un error al hacer la peticion de update a la API ERROR: ', error);
         }
     };
 
@@ -136,15 +129,12 @@ export const useArticulos = () => {
         nuevoArticulo.id_familia = nuevoArticulo.familia.id;
         nuevoArticulo.id_proveedor = nuevoArticulo.proveedor.id;
         try {
-            await ArticuloApi.crear(nuevoArticulo).then(respuesta => {
-                if (respuesta.status == 200) {
-                    router.push('/articulos');
-                }
-                console.log(respuesta);
-            });
+            await ArticuloApi.crear(nuevoArticulo);
+            router.push('/articulos');
         } catch (error) {
             console.log(
-                'Ocurrio un error al hacer la peticion de creacion a la API ERROR: ' + error,
+                'Ocurrio un error al hacer la peticion de creacion a la API ERROR: ',
+                error,
             );
         }
     };

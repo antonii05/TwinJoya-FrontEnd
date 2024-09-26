@@ -9,7 +9,7 @@ export const useEmpresa = () => {
         try {
             empresas.value = await EmpresaApi.getEmpresas();
         } catch (error) {
-            console.log('Error en la carga de empresas ERROR: ' + error);
+            console.log('Error en la carga de empresas ERROR: ', error);
         }
     };
 

@@ -30,12 +30,12 @@ export const useFacturaProveedor = () => {
 
     //Fucntions
     const buscar = async (inputId: string) => {
-        let cadena = document.getElementById(inputId) as HTMLInputElement;
+        const cadena = document.getElementById(inputId) as HTMLInputElement;
         try {
             facturasProveedor.value = await FacturasProveedorApi.buscarFactura(cadena.value);
-        } catch (error: any) {
+        } catch (error) {
             console.log(error);
-            alert(error.response.data);
+            console.error(error);
         }
     };
 

@@ -81,21 +81,6 @@ const router = createRouter({
             component: () => import('@/views/configuracion/ConfiguracionView.vue'),
         },
         {
-            path: '/configuracion/familias',
-            name: 'configuracionFamilias',
-            component: () => import('@/components/familias/listadoFamilias.vue'),
-        },
-        {
-            path: '/configuracion/familia/:id(\\d+)',
-            name: 'configuracionFamiliaInfo',
-            component: () => import('@/views/configuracion/ConfiguracionFamiliasView.vue'),
-        },
-        {
-            path: '/configuracion/familias/nuevo',
-            name: 'configuracionFamiliasNuevo',
-            component: () => import('@/views/configuracion/ConfiguracionFamiliasView.vue'),
-        },
-        {
             path: '/configuracion/familias/config/adicional',
             name: 'configuracionSecciones',
             component: () => import('@/views/configuracion/ConfiguracionSeccionesView.vue'),
