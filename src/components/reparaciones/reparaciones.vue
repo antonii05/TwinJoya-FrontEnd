@@ -124,8 +124,6 @@
 import { ref } from 'vue';
 import type { Reparacion } from '../../models/Reparacion';
 import CardComponent from '../../components/helpers/CardComponent.vue';
-/* import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css' */
 import { useUtils } from '../../composables/useUtils';
 
 //Composables
@@ -133,9 +131,6 @@ const { formatearFecha } = useUtils();
 
 //variables
 const hasNumeroSerie = ref(false);
-
-/* const date = ref(new Date());
-date.value.setDate(date.value.getDate() + 15); */
 
 defineProps({
     reparacion: {

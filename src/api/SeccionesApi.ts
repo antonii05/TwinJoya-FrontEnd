@@ -2,7 +2,7 @@ import type { Seccion } from '@/models/Seccion';
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
 
 export default {
-    name: 'FamiliaApi',
+    name: 'SeccionesApi',
 
     //Secciones
     async getSecciones(): Promise<Seccion[]> {

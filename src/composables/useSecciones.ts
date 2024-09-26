@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import type { Seccion } from '@/models/Seccion';
-import FamiliasApi from '@/api/FamiliasApi';
+import SeccionesApi from '@/api/SeccionesApi';
 
 export const useSeccion = () => {
     //variables
@@ -12,7 +12,7 @@ export const useSeccion = () => {
 
     const modificar = async (newSecciones: Seccion[]) => {
         try {
-            await FamiliasApi.actualizarSecciones(newSecciones).then(respuesta => {
+            await SeccionesApi.actualizarSecciones(newSecciones).then(respuesta => {
                 if (respuesta.status == 200) {
                     window.location.reload();
                 }
@@ -25,7 +25,7 @@ export const useSeccion = () => {
     const eliminar = async (idSeccion: number, index: number) => {
         secciones.value.splice(index, 1);
         try {
-            await FamiliasApi.eliminarSeccion(idSeccion).then(respuesta => {
+            await SeccionesApi.eliminarSeccion(idSeccion).then(respuesta => {
                 if (respuesta == 200) {
                     window.location.reload();
                 }
@@ -38,7 +38,7 @@ export const useSeccion = () => {
     //----------------------------------------------CRUD-----------------------------------------
 
     const cargarSecciones = async () => {
-        secciones.value = await FamiliasApi.getSecciones();
+        secciones.value = await SeccionesApi.getSecciones();
     };
 
     const agregarSeccion = () => {
