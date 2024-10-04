@@ -2,6 +2,7 @@ import type { Empresa } from './Empresa';
 import type { Proveedor } from './Proveedor';
 import type { Seccion } from './Seccion';
 
+//! Falta el id_empresa
 export interface Articulo {
     id: number;
     codigo: string | null;

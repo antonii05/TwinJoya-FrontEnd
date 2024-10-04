@@ -32,9 +32,9 @@ export const useArticulos = () => {
             router.push('/articulos/informacion/' + id);
             articulo.value = await ArticuloApi.getArticulo(id);
             articulo.value.articulo_en_uso = Boolean(articulo.value.articulo_en_uso);
-            await cargarProveedores();
-            await cargarSecciones();
-            await cargarEmpresas();
+            //await cargarProveedores();
+            //await cargarSecciones();
+            //await cargarEmpresas();
         } catch (error) {
             console.log('Error en la carga del detalle del Articulo', error);
         }

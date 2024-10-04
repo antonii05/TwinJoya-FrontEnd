@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col">
-            <BotonesCrud
+            <BotonesCrudComponent
                 @crear="crear(articulo)"
                 @eliminar="eliminar(articulo.id)"
                 @modificar="modificar(articulo)"
@@ -52,48 +52,50 @@
 
     <div id="vistas">
         <div class="informacion" v-if="selector == 'detalle'">
-            <detalleArticulo :articulo="articulo" />
+            <detalleArticulos v-model:articulo="articulo" :main-view="true" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'ultimaCompra'">
-            <ultimaCompraArticulo :articulo="articulo" />
+            <ultimaCompraArticulos :articulo="articulo" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'notas'">
-            <notas :articulo="articulo" />
+            <notasArticulos :articulo="articulo" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'imagen'">
-            <imagen :articulo="articulo" />
+            <imagenArticulos :articulo="articulo" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'inventario'">
-            <inventario :articulo="articulo" />
+            <inventarioArticulos :articulo="articulo" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'masDatos'">
-            <masDatos :articulo="articulo" />
+            <otrosDatosArticulos :articulo="articulo" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'web'">
-            <web :articulo="articulo" />
+            <webArticulos :articulo="articulo" />
         </div>
+        {{ articulo }}
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import CardComponent from '@/components/helpers/CardComponent.vue';
-import BotonesCrud from '@/components/helpers/BotonesCrudComponent.vue';
-import { useArticulos } from '@/composables/useArticulo';
-import detalleArticulo from '@/components/articulos/detalleArticulos.vue';
-import masDatos from '@/components/articulos/otrosDatosArticulos.vue';
-import ultimaCompraArticulo from '@/components/articulos/ultimaCompraArticulos.vue';
-import imagen from '@/components/articulos/imagenArticulos.vue';
-import inventario from '@/components/articulos/inventarioArticulos.vue';
-import notas from '@/components/articulos/notasArticulos.vue';
-import web from '@/components/articulos/webArticulos.vue';
+import { CardComponent, BotonesCrudComponent } from '@/components/helpers';
+import { useArticulos } from '@/composables';
+import {
+    detalleArticulos,
+    imagenArticulos,
+    inventarioArticulos,
+    notasArticulos,
+    otrosDatosArticulos,
+    ultimaCompraArticulos,
+    webArticulos,
+} from '@/components/articulos';
 
 //Estrcuctura Composable
 const { articulo, selector, cambiarPestania, crear, eliminar, modificar, detalle, nuevoArticulo } =
