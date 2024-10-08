@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col">
-            <BotonesCrud
+            <BotonesCrudComponent
                 @crear="crear(proveedor)"
                 @eliminar="eliminar(proveedor.id)"
                 @modificar="modificar(proveedor)"
@@ -54,34 +54,36 @@
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'facturacion'">
-            <datosFacturacion :proveedor="proveedor" />
+            <facturacionProveedores :proveedor="proveedor" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'datosTaller'">
-            <taller :proveedor="proveedor" />
+            <datosTallerProveedor :proveedor="proveedor" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'representante'">
-            <representante :proveedor="proveedor" />
+            <representanteProveedor :proveedor="proveedor" />
         </div>
 
         <div class="datosFacturacion" v-if="selector == 'notas'">
-            <notas :proveedor="proveedor" />
+            <notasProveedor :proveedor="proveedor" />
         </div>
     </div>
+    {{ proveedor }}
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useProveedor } from '@/composables/useProveedor';
-import CardComponent from '@/components/helpers/CardComponent.vue';
-import BotonesCrud from '@/components/helpers/BotonesCrudComponent.vue';
-import detalleProveedor from '@/components/proveedores/detalleProveedor.vue';
-import datosFacturacion from '@/components/proveedores/facturacionProveedores.vue';
-import taller from '@/components/proveedores/datosTallerProveedor.vue';
-import representante from '@/components/proveedores/representanteProveedor.vue';
-import notas from '@/components/proveedores/notasProveedor.vue';
+import { useProveedor } from '@/composables';
+import { CardComponent, BotonesCrudComponent } from '@/components/helpers';
+import {
+    detalleProveedor,
+    datosTallerProveedor,
+    facturacionProveedores,
+    representanteProveedor,
+    notasProveedor,
+} from '@/components/proveedores';
 
 //Estrcuctura Composable
 
@@ -102,7 +104,7 @@ onMounted(async () => {
     selector.value = 'detalle';
     try {
         if (route.params.id) {
-            detalle(parseInt(route.params.id as string));
+            await detalle(parseInt(route.params.id as string));
         } else {
             nuevoProveedor();
         }

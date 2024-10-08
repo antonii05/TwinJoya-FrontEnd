@@ -5,16 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import CardComponent from '../helpers/CardComponent.vue';
+import { defineProps } from 'vue';
+import {CardComponent} from '../helpers';
+import type { Proveedor } from '@/models';
 
-defineProps({
-    proveedor: {
-        type: Object,
-        required: true,
-    },
-});
-
-//posible async
-onMounted(() => {});
+const props = defineProps<{
+    proveedor: Proveedor
+}>();
 </script>
