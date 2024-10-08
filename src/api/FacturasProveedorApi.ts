@@ -12,7 +12,7 @@ export default {
                 return response.data;
             })
             .catch((error: AxiosError) => {
-                throw error;
+                throw error.response?.data;
             });
     },
     async getFacturaProveedor(id: number): Promise<FacturasProveedor> {
@@ -22,7 +22,7 @@ export default {
                 return response.data;
             })
             .catch((error: AxiosError) => {
-                throw error;
+                throw error.response?.data;
             });
     },
     async buscarFactura(cadena: string) {
@@ -32,7 +32,7 @@ export default {
                 return response.data;
             })
             .catch((error: AxiosError) => {
-                throw error;
+                throw error.response?.data;
             });
     },
     async crear(facturaProveedor: FacturasProveedor) {

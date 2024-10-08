@@ -10,7 +10,7 @@
                             class="form-control form-control-md"
                             type="text"
                             placeholder="Código"
-                            v-model="articulo.codigo"
+                            v-model="articuloLocal.codigo"
                             id="buscarArticulo"
                         />
                         <button class="btn btn-info" @click="buscar(true)">
@@ -25,7 +25,7 @@
                     <span><b>Descripción</b></span>
                     <textarea
                         class="form-control mt-2"
-                        v-model="articulo.descripcion"
+                        v-model="articuloLocal.descripcion"
                         placeholder="Agrege una breve descripcion del articulo"
                     ></textarea>
                 </div>
@@ -36,7 +36,7 @@
                         class="form-control form-control-md mt-2"
                         type="text"
                         placeholder="Matrícula"
-                        v-model="articulo.matricula"
+                        v-model="articuloLocal.matricula"
                     />
                 </div>
                 <div class="col col-lg-3 col-md-12 col-sm-12 justify-content-center">
@@ -45,7 +45,7 @@
                         class="form-control form-control-md mt-2"
                         type="number"
                         placeholder="Medida"
-                        v-model="articulo.medida"
+                        v-model="articuloLocal.medida"
                     />
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <p class="m-2"><b>Familia</b></p>
                     <div class="my-2">
                         <VueMultiselect
-                            v-model="articulo.familia"
+                            v-model="articuloLocal.familia"
                             :options="secciones"
                             :close-on-select="true"
                             placeholder="Busque una familia"
@@ -78,7 +78,7 @@
                     <p class="m-2"><b>Proveedor</b></p>
                     <div class="my-2">
                         <VueMultiselect
-                            v-model="articulo.proveedor"
+                            v-model="articuloLocal.proveedor"
                             :options="proveedores"
                             :close-on-select="true"
                             placeholder="Busque un Proveedor"
@@ -97,7 +97,7 @@
                     <p class="m-2"><b>Empresa Responsable</b></p>
                     <div class="my-2">
                         <VueMultiselect
-                            v-model="articulo.empresa"
+                            v-model="articuloLocal.empresa"
                             :options="empresas"
                             :close-on-select="true"
                             placeholder="Busque una Empresa"
@@ -125,7 +125,7 @@
                                 name="tipo_compra"
                                 id="tipo_compra"
                                 class="form-select mt-2"
-                                v-model="articulo.tipo_compra"
+                                v-model="articuloLocal.tipo_compra"
                             >
                                 <option v-if="articulo.tipo_compra">
                                     {{ articulo.tipo_compra }}
@@ -146,7 +146,7 @@
                             <input
                                 class="form-control form-control-md mt-2"
                                 type="text"
-                                v-model="articulo.barcode"
+                                v-model="articuloLocal.barcode"
                             />
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                             <input
                                 class="form-control form-control-md"
                                 type="number"
-                                v-model="articulo.precio_venta"
+                                v-model="articuloLocal.precio_venta"
                             />
                             <span class="input-group-text">€</span>
                         </div>
@@ -170,7 +170,7 @@
                     <textarea
                         class="form-control mt-2 observaciones"
                         placeholder="Añada una observación adicional del artículo"
-                        v-model="articulo.observaciones"
+                        v-model="articuloLocal.observaciones"
                         rows="6"
                     ></textarea>
                 </div>
@@ -186,7 +186,7 @@
                             class="form-check-input"
                             type="checkbox"
                             role="switch"
-                            v-model="articulo.articulo_en_uso"
+                            v-model="articuloLocal.articulo_en_uso"
                         />
                         <label class="form-check-label" for="flexSwitchCheckDefault"
                             >Articulo En Uso</label
@@ -199,38 +199,45 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import type { Articulo } from '../../models/Articulo';
-import { useArticulos } from '../../composables/useArticulo';
-import { useProveedor } from '../../composables/useProveedor';
-import { useSeccion } from '../../composables/useSecciones';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import CardComponent from '../helpers/CardComponent.vue';
+import type { Articulo } from '@/models';
+import { useArticulos, useEmpresa, useProveedor, useSeccion } from '@/composables';
+import { CardComponent } from '@/components/helpers';
 import VueMultiselect from 'vue-multiselect';
-/* "../../../node_modules/vue-multiselect/dist/vue-multiselect.css"; */
+import '../../../node_modules/vue-multiselect/dist/vue-multiselect.css';
 
 const route = useRoute();
-const { detalle, buscar, empresas } = useArticulos();
+const { detalle, buscar, } = useArticulos();
 const { proveedores, cargarProveedores } = useProveedor();
+const {empresas, cargarEmpresas} = useEmpresa();
 const { secciones, cargarSecciones } = useSeccion();
 const tipoCompra = ref([] as String[]);
 
-const props = defineProps({
-    articulo: {
-        type: Object as () => Articulo,
-        required: true,
+const props = defineProps<{
+    articulo: Articulo;
+    mainView: boolean;
+}>();
+
+const articuloLocal = computed({
+    get() {
+        return props.articulo;
     },
-    mainView: {
-        type: Boolean,
-        default: true,
+    set(value) {
+        emit('update:articulo', value); // Emite al padre cuando cambia el valor
     },
 });
+
+const emit = defineEmits<{
+    (e: 'update:articulo', newArticulo: Articulo): void;
+}>();
 
 onMounted(async () => {
     tipoCompra.value = ['COMPRA GENERICA', 'COMPRA ONLINE', 'COMPRA HABITUAL', 'REPUESTO'];
     try {
-        cargarSecciones();
-        cargarProveedores();
+        await cargarSecciones();
+        await cargarProveedores();
+        await cargarEmpresas()
         if (props.mainView) {
             if (route.params.id) {
                 detalle(parseInt(route.params.id as string));

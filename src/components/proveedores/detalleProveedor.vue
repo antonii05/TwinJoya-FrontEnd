@@ -8,12 +8,12 @@
             <!-- First Column -->
             <div class="col col-lg-6">
                 <div class="col-7">
-                    <div class="input-group my-4 col-4" v-if="!proveedor.id">
+                    <div class="input-group my-4 col-4" v-if="!localProveedor.id">
                         <span class="input-group-text">Nombre</span>
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.nombre_fiscal"
+                            v-model="localProveedor.nombre_fiscal"
                         />
                     </div>
                 </div>
@@ -23,16 +23,16 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.direccion"
+                            v-model="localProveedor.direccion"
                         />
                     </div>
                 </div>
                 <div class="my-4 row">
                     <div class="input-group col-3">
                         <span class="input-group-text">Codigo Postal</span>
-                        <input type="number" class="form-control" v-model="proveedor.cod_postal" />
+                        <input type="number" class="form-control" v-model="localProveedor.cod_postal" />
                         <span class="input-group-text">Provincia</span>
-                        <input type="text" class="form-control" v-model="proveedor.provincia" />
+                        <input type="text" class="form-control" v-model="localProveedor.provincia" />
                     </div>
                 </div>
                 <div class="col-3 my-4">
@@ -41,16 +41,16 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.pais"
+                            v-model="localProveedor.pais"
                         />
                     </div>
                 </div>
                 <!-- Teelfonos -->
                 <div class="input-group col-3 my-4">
                     <span class="input-group-text">Teléfono 1</span>
-                    <input type="text" class="form-control" v-model="proveedor.telefono1" />
+                    <input type="text" class="form-control" v-model="localProveedor.telefono1" />
                     <span class="input-group-text">Teléfono 2</span>
-                    <input type="text" class="form-control" v-model="proveedor.telefono2" />
+                    <input type="text" class="form-control" v-model="localProveedor.telefono2" />
                 </div>
 
                 <div class="col-6 my-4">
@@ -59,7 +59,7 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.email"
+                            v-model="localProveedor.email"
                             placeholder="ejemplo@ejemplo.com"
                         />
                     </div>
@@ -71,7 +71,7 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.web"
+                            v-model="localProveedor.web"
                             placeholder="https://paginaweb.com"
                         />
                     </div>
@@ -82,26 +82,26 @@
             <div class="col col-lg-6">
                 <!-- SWITCH -->
                 <div class="row col-3 col ms-lg-auto">
-                    <div class="form-check form-switch my-4" v-if="proveedor.id">
+                    <div class="form-check form-switch my-4" v-if="localProveedor.id">
                         <input
                             class="form-check-input"
                             type="checkbox"
                             role="switch"
-                            v-model="proveedor.activo"
+                            v-model="localProveedor.activo"
                         />
                         <label class="form-check-label"
-                            >Proveedor {{ proveedor.activo ? 'Activo' : 'Inactivo' }}</label
+                            >Proveedor {{ localProveedor.activo ? 'Activo' : 'Inactivo' }}</label
                         >
                     </div>
                 </div>
 
-                <div class="col-3 ms-auto" v-if="!proveedor.id">
+                <div class="col-3 ms-auto" v-if="!localProveedor.id">
                     <div class="input-group my-4">
                         <span class="input-group-text">Codigo</span>
                         <input
                             type="text"
                             class="form-control form-control-md text-uppercase"
-                            v-model="proveedor.codigo"
+                            v-model="localProveedor.codigo"
                         />
                     </div>
                 </div>
@@ -112,29 +112,29 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="proveedor.cif"
+                            v-model="localProveedor.cif"
                         />
                     </div>
                 </div>
 
-                <div class="col-5 ms-auto" v-if="proveedor.fecha_alta">
+                <div class="col-5 ms-auto" v-if="localProveedor.fecha_alta">
                     <div class="input-group my-4">
                         <span class="input-group-text">Ultima Modificacion</span>
                         <input
                             type="datetime-local"
                             class="form-control form-control-md"
-                            v-model="proveedor.fecha_modificacion"
+                            v-model="localProveedor.fecha_modificacion"
                             disabled
                         />
                     </div>
                 </div>
-                <div class="col-5 ms-auto" v-if="proveedor.fecha_alta">
+                <div class="col-5 ms-auto" v-if="localProveedor.fecha_alta">
                     <div class="input-group my-4">
                         <span class="input-group-text">Dado de Alta</span>
                         <input
                             type="datetime-local"
                             class="form-control form-control-md"
-                            v-model="proveedor.fecha_modificacion"
+                            v-model="localProveedor.fecha_modificacion"
                             disabled
                         />
                     </div>
@@ -148,8 +148,8 @@
                             class="form-control form-control-md"
                             type="number"
                             id="id_empresa"
-                            v-model="proveedor.id_empresa"
-                            :disabled="!!proveedor.id"
+                            v-model="localProveedor.id_empresa"
+                            :disabled="!!localProveedor.id"
                         />
                     </div>
                 </div>
@@ -159,17 +159,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import CardComponent from '../helpers/CardComponent.vue';
-import type { Proveedor } from '../../models/Proveedor';
+import {  defineProps, defineEmits, computed } from 'vue';
+import {CardComponent} from '@/components/helpers';
+import type { Proveedor } from '@/models';
 
-defineProps({
-    proveedor: {
-        type: Object as () => Proveedor,
-        required: true,
+const props = defineProps<{
+    proveedor: Proveedor;
+}>();
+
+
+const emit = defineEmits<{
+    (e: 'update:proveedor', newProveedor: Proveedor): void;
+}>()
+
+
+const localProveedor = computed({
+    get () {
+        return props.proveedor;
+    },
+    set(newValue) {
+        emit('update:proveedor', newValue);
     },
 });
-
-//posible async
-onMounted(() => {});
 </script>

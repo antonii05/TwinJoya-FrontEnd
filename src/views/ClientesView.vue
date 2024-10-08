@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="col">
-            <BotonesCrud
+            <BotonesCrudComponent
                 @crear="crear(cliente)"
                 @eliminar="eliminar(cliente.id)"
                 @modificar="modificar(cliente)"
@@ -65,7 +65,7 @@
 
     <div id="vistas">
         <div class="informacion" v-if="selector == 'detalle'">
-            <detalleCliente :cliente="cliente" />
+            <detalleCliente v-model:cliente="cliente" />
         </div>
 
         <div class="facturacion" v-if="selector == 'facturacion'">
@@ -73,53 +73,39 @@
         </div>
 
         <div class="fechaSenialada" v-if="selector == 'fechaSenialada'">
-            <fechasSenialadas />
+            <fechasSenialadasCliente />
         </div>
 
         <div class="cuenta_cte" v-if="selector == 'cuenta_cte'">
-            <cuentaCorriente />
+            <cuentaCorrienteCliente />
         </div>
 
         <div class="g_Apartado" v-if="selector == 'g_Apartado'">
-            <apartados />
+            <apartadosCliente />
         </div>
 
         <div class="notas" v-if="selector == 'notas'">
-            <notas />
+            <notasCliente />
         </div>
 
         <div class="reparacion" v-if="selector == 'reparaciones'">
-            <reparaciones :reparacion-externa="cliente.reparaciones" :has-params="true" />
+            <reparaciones :cliente_reparaciones="cliente.reparaciones" />
         </div>
+        {{ cliente }}
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useCliente } from '@/composables/useCliente';
-import detalleCliente from '@/components/clientes/detalleCliente.vue';
-import datosFacturacion from '@/components/clientes/datosFacturacion.vue';
-import cuentaCorriente from '@/components/clientes/cuentaCorrienteCliente.vue';
-import fechasSenialadas from '@/components/clientes/fechasSenialadasCliente.vue';
-import apartados from '@/components/clientes/apartadosCliente.vue';
-import notas from '@/components/clientes/notasCliente.vue';
+import { useCliente } from '@/composables';
+import {detalleCliente,datosFacturacion,cuentaCorrienteCliente,fechasSenialadasCliente,apartadosCliente,notasCliente} from '@/components/clientes';
 import reparaciones from '@/components/reparaciones/listadoReparacion.vue';
-
-import CardComponent from '@/components/helpers/CardComponent.vue';
-import BotonesCrud from '@/components/helpers/BotonesCrudComponent.vue';
+import {CardComponent, BotonesCrudComponent} from '@/components/helpers';
 
 //Estrcuctura Composable
-const {
-    selector,
-    cliente,
-    cambiarPestania,
-    detalle,
-    modificar,
-    eliminar,
-    crear,
-    // nuevoCliente
-} = useCliente();
+const { selector, cliente, cambiarPestania, detalle, modificar, eliminar, crear, nuevoCliente } =
+    useCliente();
 
 const route = useRoute();
 
@@ -129,7 +115,7 @@ onMounted(async () => {
         if (route.params.id) {
             detalle(parseInt(route.params.id as string));
         } else {
-            // nuevoCliente()
+            nuevoCliente();
         }
     } catch (error) {
         console.log('error en la vista de detalle ERROR: ' + error);

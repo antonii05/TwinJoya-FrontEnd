@@ -13,7 +13,7 @@
                             <input
                                 class="form-control form-control-md"
                                 type="text"
-                                v-model="cliente.nombre"
+                                v-model="clienteLocal.nombre"
                             />
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                             <input
                                 class="form-control form-control-md"
                                 type="text"
-                                v-model="cliente.apellidos"
+                                v-model="clienteLocal.apellidos"
                             />
                         </div>
                     </div>
@@ -36,15 +36,15 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="cliente.direccion"
+                            v-model="clienteLocal.direccion"
                         />
                     </div>
                 </div>
                 <div class="input-group my-4 col">
                     <span class="input-group-text">Codigo Postal</span>
-                    <input type="number" class="form-control col-1" v-model="cliente.cod_postal" />
+                    <input type="number" class="form-control col-1" v-model="clienteLocal.cod_postal" />
                     <span class="input-group-text">Provincia</span>
-                    <input type="text" class="form-control col-3" v-model="cliente.provincia" />
+                    <input type="text" class="form-control col-3" v-model="clienteLocal.provincia" />
                 </div>
                 <div class="col-4">
                     <div class="input-group">
@@ -52,7 +52,7 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="cliente.pais"
+                            v-model="clienteLocal.pais"
                         />
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             <input
                                 class="form-control form-control-md"
                                 type="text"
-                                v-model="cliente.telefono"
+                                v-model="clienteLocal.telefono"
                             />
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                             <input
                                 class="form-control form-control-md"
                                 type="text"
-                                v-model="cliente.telefonoFijo"
+                                v-model="clienteLocal.telefonoFijo"
                             />
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="cliente.email"
+                            v-model="clienteLocal.email"
                             placeholder="ejemplo@ejemplo.com"
                         />
                     </div>
@@ -103,7 +103,7 @@
                             class="form-check-input"
                             type="checkbox"
                             role="switch"
-                            v-model="cliente.activo"
+                            v-model="clienteLocal.activo"
                         />
                         <label class="form-check-label" for="flexSwitchCheckDefault"
                             >Cliente {{ cliente.activo ? 'Activo' : 'Desactivado' }}</label
@@ -116,7 +116,7 @@
                         <input
                             class="form-control form-control-md"
                             type="text"
-                            v-model="cliente.nif"
+                            v-model="clienteLocal.nif"
                         />
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                             type="datetime-local"
                             class="form-control text-center"
                             id="fechaAlta"
-                            v-model="cliente.fecha_alta"
+                            v-model="clienteLocal.fecha_alta"
                             disabled
                         />
                     </div>
@@ -135,7 +135,7 @@
 
                 <div class="offset-7">
                     <div class="input-group my-4 col-10">
-                        <select v-model="cliente.tipo_cliente" class="form-select">
+                        <select v-model="clienteLocal.tipo_cliente" class="form-select">
                             <option value="-1" selected disabled>Tipo de cliente</option>
                             <option value="0">Sin Información</option>
                             <option value="1">Comun</option>
@@ -147,7 +147,7 @@
                     <div class="input-group my-4 col-10">
                         <span class="mb-2">Tienda de Referencia</span>
                         <VueMultiselect
-                            v-model="cliente.empresa"
+                            v-model="clienteLocal.empresa"
                             :options="empresas"
                             :close-on-select="true"
                             placeholder="Busque una Empresa"
@@ -160,34 +160,43 @@
                 </div>
             </div>
         </div>
-        {{ cliente }}
     </CardComponent>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useCliente } from '../../composables/useCliente';
+import { computed, onMounted } from 'vue';
+import { useCliente } from '@/composables';
 import { useRoute } from 'vue-router';
-import CardComponent from '../helpers/CardComponent.vue';
-import type { Cliente } from '../../models/Cliente';
+import { CardComponent } from '@/components/helpers';
+import type { Cliente } from '@/models';
 import VueMultiselect from 'vue-multiselect';
 import '../../../node_modules/vue-multiselect/dist/vue-multiselect.css';
 
 const route = useRoute();
 const { detalle, empresas, isNew, cargarEmpresas } = useCliente();
 
-defineProps({
-    cliente: {
-        type: Object as () => Cliente,
-        required: true,
+const props = defineProps<{
+    cliente: Cliente;
+}>();
+
+const clienteLocal = computed({
+    get() {
+        return props.cliente;
+    },
+    set(value) {
+        emit('update:cliente', value);
     },
 });
 
+const emit = defineEmits<{
+    (e: 'update:cliente', newArticulo: Cliente): void;
+}>();
+
 onMounted(async () => {
-    cargarEmpresas();
+    await cargarEmpresas();
     try {
         if (route.params.id) {
-            detalle(parseInt(route.params.id as string));
+            await detalle(parseInt(route.params.id as string));
         }
     } catch (error) {
         console.log('error en la vista de detalle ERROR: ' + error);

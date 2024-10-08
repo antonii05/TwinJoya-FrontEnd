@@ -15,31 +15,35 @@
         </div>
         <CardComponent>
             <table class="table">
-                <tr class="encabezado">
-                    <th>ID</th>
-                    <th>Nombre Fiscal</th>
-                    <th>CIF</th>
-                    <th>Provincia</th>
-                    <th>Direccion</th>
-                </tr>
-                <tr
-                    class="filas"
-                    v-for="(item, index) in proveedores"
-                    :key="index"
-                    @click="detalle(item.id)"
-                >
-                    <th class="text-primary">{{ item.id }}</th>
-                    <td>{{ item.nombre_fiscal }}</td>
-                    <td>{{ item.cif }}</td>
-                    <td>{{ item.provincia }}</td>
-                    <td>{{ item.direccion }}</td>
-                    <td class="eliminar text-center">
-                        <!-- El .stop hace que no se ejecute mas opciones una vez ejecutado ese @click -->
-                        <button class="btn btn-danger" @click.stop="eliminar(item.id)">
-                            <font-awesome-icon icon="trash-can" color="#fff" />
-                        </button>
-                    </td>
-                </tr>
+                <thead>
+                    <tr class="encabezado">
+                        <th>ID</th>
+                        <th>Nombre Fiscal</th>
+                        <th>CIF</th>
+                        <th>Provincia</th>
+                        <th>Direccion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        class="filas"
+                        v-for="(item, index) in proveedores"
+                        :key="index"
+                        @click="detalle(item.id)"
+                    >
+                        <th class="text-primary">{{ item.id }}</th>
+                        <td>{{ item.nombre_fiscal }}</td>
+                        <td>{{ item.cif }}</td>
+                        <td>{{ item.provincia }}</td>
+                        <td>{{ item.direccion }}</td>
+                        <td class="eliminar text-center">
+                            <!-- El .stop hace que no se ejecute mas opciones una vez ejecutado ese @click -->
+                            <button class="btn btn-danger" @click.stop="eliminar(item.id)">
+                                <font-awesome-icon icon="trash-can" color="#fff" />
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </CardComponent>
     </div>

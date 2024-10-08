@@ -73,17 +73,17 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import CardComponent from '../helpers/CardComponent.vue';
-import { useArticulos } from '../../composables/useArticulo';
+import { CardComponent } from '@/components/helpers';
+import { useArticulos } from '@/composables';
 
 const { articulos, cargarArticulos, detalle, eliminar, buscar, articulo } = useArticulos();
 
 onMounted(async () => {
-    cargarArticulos();
+    await cargarArticulos();
 });
 </script>
 
-<style>
+<style scoped>
 .table .eliminar {
     --bs-table-bg: #dc3545;
 }
