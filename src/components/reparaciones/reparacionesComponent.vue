@@ -11,7 +11,7 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                v-model="reparacion.diasAprox"
+                                v-model="localReparacion.diasAprox"
                             />
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                v-model="reparacion.unidades"
+                                v-model="localReparacion.unidades"
                             />
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                v-model="reparacion.importe"
+                                v-model="localReparacion.importe"
                             />
                             <span class="input-group-text">€</span>
                         </div>
@@ -52,7 +52,7 @@
                         cols="30"
                         rows="3"
                         class="form-control"
-                        v-model="reparacion.descripcion"
+                        v-model="localReparacion.descripcion"
                     ></textarea>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                         cols="30"
                         rows="2"
                         class="form-control"
-                        v-model="reparacion.reparacion_a_realizar"
+                        v-model="localReparacion.reparacion_a_realizar"
                     ></textarea>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         <input
                             type="number"
                             class="form-control"
-                            v-model="reparacion.presupuesto_taller"
+                            v-model="localReparacion.presupuesto_taller"
                         />
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                v-model="reparacion.numero_serie"
+                                v-model="localReparacion.numero_serie"
                             />
                         </div>
                     </div>
@@ -115,29 +115,38 @@
                         />
                     </div>
                 </div>
+                
             </div>
         </CardComponent>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Reparacion } from '../../models/Reparacion';
-import CardComponent from '../../components/helpers/CardComponent.vue';
-import { useUtils } from '../../composables/useUtils';
+import { computed, ref, defineProps, defineEmits } from 'vue';
+import type { Reparacion } from '@/models';
+import { CardComponent } from '@/components/helpers';
+import { useUtils } from '@/composables';
 
-//Composables
-const { formatearFecha } = useUtils();
+const emit = defineEmits<{
+    (e: 'update:reparacion', newValue: Reparacion): void;
+}>();
+
+const props = defineProps<{
+    reparacion: Reparacion;
+}>();
+
+const localReparacion = computed({
+    get() {
+        return props.reparacion;
+    },
+    set(newValue) {
+        emit('update:reparacion', newValue);
+    },
+});
 
 //variables
 const hasNumeroSerie = ref(false);
-
-defineProps({
-    reparacion: {
-        type: Object as () => Reparacion,
-        required: true,
-    },
-});
+const { formatearFecha } = useUtils();
 </script>
 
 <style>

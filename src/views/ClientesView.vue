@@ -89,7 +89,7 @@
         </div>
 
         <div class="reparacion" v-if="selector == 'reparaciones'">
-            <reparaciones :reparacion-externa="cliente.reparaciones" :has-params="true" />
+            <reparaciones :cliente_reparaciones="cliente.reparaciones" />
         </div>
         {{ cliente }}
     </div>

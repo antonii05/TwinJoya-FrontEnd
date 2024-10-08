@@ -46,36 +46,28 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
-import { onMounted } from 'vue';
-import CardComponent from '../helpers/CardComponent.vue';
-import { useReparacion } from '../../composables/useReparaciones';
-import type { Reparacion } from '@/models/Reparacion';
+import { ref, onMounted } from 'vue';
+import { CardComponent } from '@/components/helpers';
+import { useReparacion } from '@/composables';
+import type { Reparacion } from '@/models';
 
 const { reparaciones, cargarReparaciones, detalle, eliminar, nuevaReparacion } = useReparacion();
 
 onMounted(async () => {
-    if (!props.hasParams) {
-        cargarReparaciones();
+    if (props.cliente_reparaciones) {
+        reparaciones.value = props.cliente_reparaciones!;
     } else {
-        listado.value = props.reparacionExterna!;
+        await cargarReparaciones();
     }
 });
 const listado = ref(reparaciones);
 
-const props = defineProps({
-    hasParams: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-    reparacionExterna: {
-        type: Object as () => Reparacion[],
-    },
-});
+const props = defineProps<{
+    cliente_reparaciones?: Reparacion[];
+}>();
 </script>
 
-<style>
+<style scoped>
 .table .eliminar {
     --bs-table-bg: #dc3545;
 }

@@ -135,6 +135,7 @@
                 </div>
             </div>
         </div>
+        {{reparacion}}
     </div>
 </template>
 
@@ -146,7 +147,7 @@ import { useReparacion } from '@/composables/useReparaciones';
 import CardComponent from '@/components/helpers/CardComponent.vue';
 import BotonesCrud from '@/components/helpers/BotonesCrudComponent.vue';
 import datosCliente from '@/components/clientes/detalleCliente.vue';
-import reparacionComponent from '@/components/reparaciones/reparaciones.vue';
+import reparacionComponent from '@/components/reparaciones/reparacionesComponent.vue';
 import historial from '@/components/reparaciones/historicoReparaciones.vue';
 import imagen from '@/components/reparaciones/imagenReparacion.vue';
 import masDatos from '@/components/reparaciones/masDatosReparacion.vue';
