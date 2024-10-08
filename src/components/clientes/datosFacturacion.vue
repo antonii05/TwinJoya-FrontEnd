@@ -5,9 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import CardComponent from '../helpers/CardComponent.vue';
 
-//posible async
-onMounted(() => {});
 </script>

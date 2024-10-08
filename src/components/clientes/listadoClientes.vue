@@ -48,13 +48,13 @@
 click=
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useCliente } from '../../composables/useCliente';
-import CardComponent from '../helpers/CardComponent.vue';
+import { useCliente } from '@/composables';
+import { CardComponent } from '@/components/helpers';
 
 const { clientes, cargarClientes, detalle, eliminar, nuevoCliente } = useCliente();
 
 onMounted(async () => {
-    cargarClientes();
+    await cargarClientes();
 });
 </script>
 
